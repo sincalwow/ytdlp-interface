@@ -1,30 +1,92 @@
-# ytdlp-interface
-This is a Windows graphical interface for [yt-dlp](https://github.com/yt-dlp/yt-dlp), that is designed as a simple YouTube downloader. Since v1.2, the interface also accepts non-YouTube URLs, so theoretically it can be used to download from any site that `yt-dlp` supports (see [the list](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)).
 
-To use, unpack the archive in a new folder at a location of your choice, and run `ytdlp-interface.exe`.
+## 命令行版
 
-Download link for the latest version (64 bit): https://github.com/ErrorFlynn/ytdlp-interface/releases/download/v2.14.1/ytdlp-interface.7z
+> **其实，当你使用**yt-dlp图形界面版**时，就已经把命令行版的ytdlp给装好了，**
+> 
+> 
+> **你在图形界面版里下载视频时，都是软件替你执行了yt-dlp命令。**
+> 
+> **具体详见：[视频演示](https://youtu.be/54T6AfLDv4A?t=338)**
+> 
 
-32 bit build: https://github.com/ErrorFlynn/ytdlp-interface/releases/download/v2.14.1/ytdlp-interface_x86.7z
+### 附：常用命令*（点击左侧黑三角，可展开）*
 
+> **==*_*==**
+> 
+> 
+> **1. 常规下载**（如果不考虑视频格式、分辨率的话，就直接输入yt-dlp 空格 视频链接）
+> 
+> ➤ 例如：
+> 
+> `yt-dlp 粘贴视频链接`
+> 
+> ---
+> 
+> **2. 指定下载（**如果你想下载指定分辨率，需要先用-F参数，查询可下载的分辨率都有哪些，然后用-f id号 参数来指定下载。**）**
+> 
+> ➤ 例如：
+> 
+> （**查看**可下载的分辨率都有哪些？以下代码执行后，最左侧有音频和视频可下载的id号，同时你也能看到都有哪些分辨率）
+> 
+> `yt-dlp -F 粘贴视频链接`
+> 
+> （以下代码执行后，可单独**下载**音频和无声音的视频，用视频id+音频id可自动合并成一个带有声音的视频；若只下载音频，可只填音频id，无声视频同理）
+> 
+> `yt-dlp -f 视频id+音频id 粘贴视频链接`
+> 
+> ---
+> 
+> **3. 参数**
+> 
+> `--merge-output-format mp4`        （合并音视频为点mp4格式）
+> 
+> 用法：直接在上方下载命令中加入一个空格粘贴--merge-output-format mp4即可！
+> 
+> ➤ 比如：
+> 
+> `yt-dlp 粘贴视频链接 --merge-output-format mp4`
+> 或者
+> `yt-dlp --merge-output-format mp4 粘贴视频链接`
+> 
+> ---
+> 
+> `-f "bv*+ba/best"`        （最佳质量下载，比如视频最高质量为1080p，用这个参数，就能默认下载到最高1080p分辨率；这个跟上面提到的`-f 视频id+音频id` 是同一个参数）
+> 
+> ➤ 比如：
+> `yt-dlp 粘贴视频链接 -f "bv*+ba/best"`
+> 
+> ---
+> 
+> `--cookies-from-browser firefox`         【指定浏览器缓存，全小写（可替换成chrome、edge，使用时需登录相关平台账号并关闭浏览器）适合那些需要登录账号才能观看的视频，比如18+，或私享视频等】
+> 
+> ---
+> 
+> **4. 帮助命令**
+> `yt-dlp -h`        （查看帮助）
+> 
+> ---
+> 
+
+### **常用命令和参数汇总***（简化）*
+
+> ***需先看上方的”*附:常用命令*”，已便理解！*
+注意：命令、参数、之间相隔一个空格**
+> 
 
 ---
 
-## Building the source
-The project depends on three static libraries: [Nana C++ GUI library](https://github.com/cnjinhao/nana) v1.8 or later (at the time I'm writing this v1.8 is in development, so you must build branch `develop-1.8`), [libjpeg-turbo](https://github.com/libjpeg-turbo/libjpeg-turbo), and [bit7z](https://github.com/rikyoz/bit7z).
-
-The project uses a modified version of the Nana library (the file `nana-develop-1.8 (2024-05-06) ytdlp-interface mod.7z`). You can still link against the original library, but the modified version has features and behaviors not present in the original (as of June 2024). Most importantly, the modified library ensures that all interface elements follow the chosen color scheme, and that most interface elements scale properly with the system scale factor.
-
-The program also uses [JSON for modern C++](https://github.com/nlohmann/json) to get video info from `yt-dlp.exe` and to read/write the settings file, but that's just a header file that's included in the project (you can replace it with its latest version if you really want to).
-
----
-
-![ytdlp-interface settings](https://github.com/ErrorFlynn/ytdlp-interface/assets/20293505/adb02d8a-5857-46dc-ad51-fd71c3a6bd96)
-
----
-
-![ytdlp-interface queue](https://github.com/ErrorFlynn/ytdlp-interface/assets/20293505/86fd2013-4247-4f1e-8038-334ed31a3d4e)
-
----
-
-![ytdlp-interface output](https://github.com/ErrorFlynn/ytdlp-interface/assets/20293505/a99f8e21-95e0-4641-b589-7211a37ee454)
+1. 直接下载：
+`yt-dlp 粘贴视频链接`
+2. 查看分辨率&对应音视频ID
+`-F`
+3. 指定分辨率下载
+`-f id+id`
+4. 最佳质量下载
+`-f "bv*+ba/best"`  
+5. 合并音视频为点mp4格式
+`--merge-output-format mp4` 
+6. 指定浏览器缓存下载（举例火狐）
+`--cookies-from-browser firefox`
+7. 2到6的参数，可根据需要，直接跟在命令1的后面；
+*(可跟单个参数，也可跟多个参数，注意它们之间要有空格隔开)*
+其它参数，可使用帮助命令`yt-dlp -h`查看。
